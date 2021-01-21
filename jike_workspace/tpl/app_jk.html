@@ -1,0 +1,71 @@
+<script type="text/template" id="app-entry">
+  <section>
+    
+    <el-menu
+    v-if="$route.path!='/demo' && $route.path!='/500' && $route.query.content_only!=1"
+    style="display:inline-block;width:200px;"
+    default-active="2"
+    class="el-menu-vertical-demo"
+    @open="handleOpen"
+    @close="handleClose"
+    background-color="#545c64"
+    text-color="#fff"
+    active-text-color="#ffd04b">
+    <el-submenu v-for="(outerItem,outerIndex) in bueStore.MENUS" :index="''+outerItem.menuId">
+      <template slot="title">
+        <i class="el-icon-location"></i>
+        <span>{{outerItem.menuName}}</span>
+      </template>
+      <el-menu-item-group>
+        
+        <el-menu-item :data-url="innerItem.menuUrl" @click="toViewByMenuClick(outerItem,innerItem)" v-for="(innerItem,innerIndex) in outerItem.childMenu" :index="''+innerItem.menuId">{{innerItem.menuName}}</el-menu-item>
+        
+      </el-menu-item-group>
+      
+    </el-submenu>
+    
+  </el-menu>
+
+
+
+  <div style="display:inline-block;width:calc(100% - 204px)
+  ;box-sizing:border-box;vertical-align:top;" >
+
+
+  <header
+  v-if="$route.path!='/demo' && $route.path!='/500' && $route.query.content_only!=1"
+  style="height:60px;line-height:60px;background-color:#dcdfe6;box-sizing:border-box;
+  padding:0 10px;text-align:right;">
+    <span v-if="bueStore.userInfo.userVO">
+      welcome,{{bueStore.userInfo.userVO.realName}}
+      <el-button @click="logout">登出</el-button>
+    </span>
+    
+    
+  </header>
+
+  <div style="margin-top:20px;box-sizing:border-box;padding:10px;">
+
+<keep-alive>
+  
+  <router-view
+  v-if="$route.meta.keepAlive">
+     
+  </router-view>
+  
+</keep-alive>
+
+<router-view v-if="!$route.meta.keepAlive">
+  
+</router-view>
+  </div>
+
+  </div>
+
+
+
+       
+     
+
+  </section>
+</script>
